@@ -7,3 +7,5 @@ chroma_wikipedia_db/
 __pycache__/
 
 chroma2_wikipedia_db/
+
+.gradio/

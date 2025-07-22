@@ -4,6 +4,8 @@ from langchain.chains import RetrievalQA
 from langchain.prompts import PromptTemplate
 
 def get_llm(pipeline_device, model_id = "google/flan-t5-large", ):
+    print(f"Loading model '{model_id}' on device {pipeline_device}...")
+    
     tokenizer = AutoTokenizer.from_pretrained(model_id)
     model = AutoModelForSeq2SeqLM.from_pretrained(model_id)
 
@@ -20,9 +22,11 @@ def get_llm(pipeline_device, model_id = "google/flan-t5-large", ):
     return HuggingFacePipeline(pipeline=pipe)
 
 def get_retriever(vector_store, k=7):
+    print(f"Creating retriever with top-{k} search...")
     return vector_store.as_retriever(search_kwargs={"k": k})
 
 def get_prompt_template():
+    print("Creating prompt template...")
     return PromptTemplate(
         input_variables=["context", "question"],
         template = """
@@ -36,7 +40,9 @@ Answer:
     )
 
 def get_rag_chain(llm,retriever,prompt):
-    return RetrievalQA.from_chain_type(llm=llm,retriever=retriever,chain_type_kwargs={"prompt": prompt},return_source_documents=True,verbose=True)    
+    print("Building RAG chain...")
+    return RetrievalQA.from_chain_type(llm=llm,retriever=retriever,chain_type_kwargs={"prompt": prompt},return_source_documents=True,verbose=False)    
 
 def get_answer(rag_chain,query):
+    print(f"Answering query: {query}")
     return rag_chain(query)
