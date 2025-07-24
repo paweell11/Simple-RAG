@@ -46,6 +46,7 @@ python main.py
 ```
 or explore it interactively with:
 ```bash
+cd notebook
 jupyter notebook
 ```
 

@@ -1,6 +1,6 @@
-from data_preparation import load_data, create_documents
-from embeddings_and_db import get_embedding_function, create_embeddings, get_vector_store, add_embeddings_to_database
-from llm_generation import get_llm, get_retriever, get_prompt_template, get_rag_chain, get_answer
+from src.data_preparation import load_data, create_documents
+from src.embeddings_and_db import get_embedding_function, create_embeddings, get_vector_store, add_embeddings_to_database
+from src.llm_generation import get_llm, get_retriever, get_prompt_template, get_rag_chain, get_answer
 import gradio as gr
 import torch
 
