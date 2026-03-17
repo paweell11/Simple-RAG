@@ -34,12 +34,12 @@ def main():
 
     def answer_question(query):
         result = get_answer(rag_chain, query)
-        print(f"Generated answer:\n{result['result']}\n")
-        return result["result"]
+        print(f"Generated answer:\n{result}\n")
+        return result
     
     #query = "How does the water cycle work in nature?"
     #answer = get_answer(rag_chain,query)
-    #print(answer["result"])
+    #print(answer)
 
     demo = gr.Interface(fn=answer_question, inputs="text", outputs="text",allow_flagging="never")
     demo.launch()

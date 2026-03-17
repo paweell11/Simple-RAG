@@ -1,5 +1,5 @@
 from datasets import load_dataset
-from langchain.schema import Document as LangChainDocument
+from langchain_core.documents import Document as LangChainDocument
 
 def load_data():
     print("Loading dataset...")

@@ -1,7 +1,8 @@
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM, pipeline
 from langchain_huggingface.llms import HuggingFacePipeline
-from langchain.chains import RetrievalQA
-from langchain.prompts import PromptTemplate
+from langchain_core.runnables import RunnablePassthrough
+from langchain_core.prompts import PromptTemplate
+from langchain_core.output_parsers import StrOutputParser
 
 def get_llm(pipeline_device, model_id = "google/flan-t5-large", ):
     print(f"Loading model '{model_id}' on device {pipeline_device}...")
@@ -39,10 +40,18 @@ Answer:
 """
     )
 
-def get_rag_chain(llm,retriever,prompt):
-    print("Building RAG chain...")
-    return RetrievalQA.from_chain_type(llm=llm,retriever=retriever,chain_type_kwargs={"prompt": prompt},return_source_documents=True,verbose=False)    
+def format_docs(docs):
+    return "\n\n".join(doc.page_content for doc in docs)
 
-def get_answer(rag_chain,query):
+def get_rag_chain(llm, retriever, prompt):
+    print("Building RAG chain...")
+    return (
+        {"context": retriever | format_docs, "question": RunnablePassthrough()}
+        | prompt
+        | llm
+        | StrOutputParser()
+    )
+
+def get_answer(rag_chain, query):
     print(f"Answering query: {query}")
-    return rag_chain(query)
+    return rag_chain.invoke(query)
