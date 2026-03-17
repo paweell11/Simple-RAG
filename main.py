@@ -1,3 +1,6 @@
+import os
+from dotenv import load_dotenv
+
 from src.data_preparation import load_data, create_documents
 from src.embeddings_and_db import get_embedding_function, create_embeddings, get_vector_store, add_embeddings_to_database
 from src.llm_generation import get_llm, get_retriever, get_prompt_template, get_rag_chain, get_answer
@@ -25,8 +28,10 @@ def main():
 
     vector_store = get_vector_store(embedding_function, "./chroma2_wikipedia_db")
     add_embeddings_to_database(documents, vector_store)
-    
-    llm = get_llm(pipeline_device, model_id = "google/flan-t5-large")
+
+    USE_GEMINI_API = True  
+
+    llm = get_llm(pipeline_device, use_gemini=USE_GEMINI_API)
     retriever = get_retriever(vector_store, k=7)
 
     prompt = get_prompt_template()
