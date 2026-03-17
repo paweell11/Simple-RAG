@@ -8,7 +8,7 @@ This is a basic Retrieval-Augmented Generation (RAG) project that loads data fro
 2. Converts the text into LangChain-compatible documents.
 3. Generates embeddings using the `all-MiniLM-L6-v2` model.
 4. Stores them in a vector database using ChromaDB.
-5. Uses a language model (`google/flan-t5-large`) to generate answers based on retrieved context.
+5. Generates answers based on retrieved context using a toggleable LLM factory (switch between local `google/flan-t5-large` and cloud-based `gemini-3-flash-preview`).
 6. Provides a clean interface for asking questions using Gradio.
 
 
